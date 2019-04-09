@@ -58,7 +58,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BusinessModel\BusinessModelBase.cs" />
+    <Compile Include="BusinessModel\FormulationBusinessModel.cs" />
+    <Compile Include="PropertyChangedBase.cs" />
     <Compile Include="Startup\BootStrapper.cs" />
+    <Page Include="View\FormulationEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -67,8 +74,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\FormulationEditViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\FormulationEditView.xaml.cs">
+      <DependentUpon>FormulationEditView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -101,6 +112,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\FormulationEditor.Model\FormulationEditor.Model.csproj">
+      <Project>{786B0C6F-30E3-4706-97A2-ACF86FC00D1C}</Project>
+      <Name>FormulationEditor.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

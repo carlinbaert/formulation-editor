@@ -12,6 +12,9 @@ namespace FormulationEditor.WPF.Startup
 
             builder.RegisterType<MainWindowView>().AsSelf();
             builder.RegisterType<MainWindowViewModel>().AsSelf();
+            builder.RegisterType<FormulationEditView>().AsSelf();
+            builder.RegisterType<FormulationEditViewModel>().AsSelf();
+            
 
             return builder.Build();
         }

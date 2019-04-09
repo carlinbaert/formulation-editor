@@ -1,15 +1,6 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
-namespace FormulationEditor.WPF.ViewModel
+﻿namespace FormulationEditor.WPF.ViewModel
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : PropertyChangedBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void NotifyPropertyChanged([CallerMemberName]string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
