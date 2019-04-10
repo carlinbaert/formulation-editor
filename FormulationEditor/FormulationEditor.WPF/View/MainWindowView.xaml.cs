@@ -15,9 +15,9 @@ namespace FormulationEditor.WPF.View
             Loaded += MainWindow_Loaded;
         }
 
-        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            await _mainWindowViewModel.LoadAsync();
+            _mainWindowViewModel.Load();
         }
     }
 }

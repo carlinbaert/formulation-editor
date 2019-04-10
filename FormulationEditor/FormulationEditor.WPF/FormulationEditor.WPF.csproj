@@ -60,6 +60,14 @@
     </ApplicationDefinition>
     <Compile Include="BusinessModel\BusinessModelBase.cs" />
     <Compile Include="BusinessModel\FormulationBusinessModel.cs" />
+    <Compile Include="Data\Repositories\FormulationIngredientRepository.cs" />
+    <Compile Include="Data\Repositories\FormulationRepository.cs" />
+    <Compile Include="Data\Repositories\GenericRepository.cs" />
+    <Compile Include="Data\Repositories\IFormulationIngredientRepository.cs" />
+    <Compile Include="Data\Repositories\IFormulationRepository.cs" />
+    <Compile Include="Data\Repositories\IGenericRepository.cs" />
+    <Compile Include="Data\Repositories\IIngredientRepository.cs" />
+    <Compile Include="Data\Repositories\IngredientRepository.cs" />
     <Compile Include="PropertyChangedBase.cs" />
     <Compile Include="Startup\BootStrapper.cs" />
     <Page Include="View\FormulationEditView.xaml">
@@ -117,6 +125,9 @@
       <Project>{786B0C6F-30E3-4706-97A2-ACF86FC00D1C}</Project>
       <Name>FormulationEditor.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Lookups\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -2,11 +2,11 @@
 {
     public class FormulationIngredient
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
-        public string FormulationId { get; set; }
+        public int FormulationId { get; set; }
 
-        public string IngredientId { get; set; }
+        public int IngredientId { get; set; }
 
         public int Quantity { get; set; }
 

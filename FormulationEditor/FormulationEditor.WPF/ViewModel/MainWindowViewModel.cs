@@ -1,22 +1,28 @@
-﻿using System.Threading.Tasks;
+﻿using FormulationEditor.WPF.Data.Repositories;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FormulationEditor.WPF.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
         private FormulationEditViewModel _formulationEditViewModel;
+        private IFormulationRepository _formulationRepository;
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IFormulationRepository formulationRepository)
         {
-
+            _formulationRepository = formulationRepository;
         }
 
-        public async Task LoadAsync()
+        public void Load()
         {
-            var formulationEditViewModel = new FormulationEditViewModel();
-            formulationEditViewModel.Load();
+            if (!_formulationRepository.GetAll().Any())
+            {
+                var formulationEditViewModel = new FormulationEditViewModel();
+                formulationEditViewModel.Load();
 
-            FormulationEditViewModel = formulationEditViewModel;
+                FormulationEditViewModel = formulationEditViewModel;
+            }
         }
 
         public FormulationEditViewModel FormulationEditViewModel
