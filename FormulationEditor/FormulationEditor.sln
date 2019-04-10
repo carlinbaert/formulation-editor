@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulationEditor.Model", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulationEditor.WPF.Tests", "FormulationEditor.WPF.Tests\FormulationEditor.WPF.Tests.csproj", "{93280DF2-F0B1-4E95-96B0-465FA08C9060}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IngredientPricingAPI", "IngredientPricingAPI\IngredientPricingAPI.csproj", "{0193E23E-C4DA-45C5-B49B-EC9C9129DB22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{93280DF2-F0B1-4E95-96B0-465FA08C9060}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93280DF2-F0B1-4E95-96B0-465FA08C9060}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93280DF2-F0B1-4E95-96B0-465FA08C9060}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0193E23E-C4DA-45C5-B49B-EC9C9129DB22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0193E23E-C4DA-45C5-B49B-EC9C9129DB22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0193E23E-C4DA-45C5-B49B-EC9C9129DB22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0193E23E-C4DA-45C5-B49B-EC9C9129DB22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

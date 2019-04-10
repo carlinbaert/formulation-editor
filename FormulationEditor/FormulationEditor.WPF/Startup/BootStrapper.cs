@@ -19,6 +19,7 @@ namespace FormulationEditor.WPF.Startup
 
             builder.RegisterType<IngredientRepository>().As<IIngredientRepository>().SingleInstance();
             builder.RegisterType<FormulationRepository>().As<IFormulationRepository>().SingleInstance();
+            builder.RegisterType<IngredientPriceRepository>().As<IIngredientPriceRepository>().SingleInstance();
             builder.RegisterType<FormulationIngredientRepository>().As<IFormulationIngredientRepository>().SingleInstance();
 
             builder.RegisterType<LookupDataService>().AsImplementedInterfaces().SingleInstance();

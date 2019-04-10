@@ -43,7 +43,9 @@
   <ItemGroup>
     <Compile Include="Formulation.cs" />
     <Compile Include="FormulationIngredient.cs" />
+    <Compile Include="IIngredientPrice.cs" />
     <Compile Include="Ingredient.cs" />
+    <Compile Include="IngredientPrice.cs" />
     <Compile Include="LookupItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
