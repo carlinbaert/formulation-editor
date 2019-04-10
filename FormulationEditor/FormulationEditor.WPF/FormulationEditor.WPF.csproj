@@ -38,6 +38,9 @@
     <Reference Include="Autofac, Version=4.9.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.9.2\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -60,6 +63,9 @@
     </ApplicationDefinition>
     <Compile Include="BusinessModel\BusinessModelBase.cs" />
     <Compile Include="BusinessModel\FormulationBusinessModel.cs" />
+    <Compile Include="BusinessModel\FormulationIngredientBusinessModel.cs" />
+    <Compile Include="Data\Lookups\IIngredientLookupDataService.cs" />
+    <Compile Include="Data\Lookups\LookupDataService.cs" />
     <Compile Include="Data\Repositories\FormulationIngredientRepository.cs" />
     <Compile Include="Data\Repositories\FormulationRepository.cs" />
     <Compile Include="Data\Repositories\GenericRepository.cs" />
@@ -83,6 +89,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\FormulationEditViewModel.cs" />
+    <Compile Include="ViewModel\IFormulationEditViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\FormulationEditView.xaml.cs">
@@ -127,7 +134,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\Lookups\" />
+    <Folder Include="Event\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

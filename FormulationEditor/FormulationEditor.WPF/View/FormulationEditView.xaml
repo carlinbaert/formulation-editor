@@ -9,13 +9,34 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="Formulation Name" />
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FormulationBusinessModel.Name}" />
+        <Label Grid.Row="0" Grid.Column="0" 
+               Content="Formulation Name" />
+        
+        <TextBox Grid.Row="0" Grid.Column="1"
+                 Grid.ColumnSpan="2"
+                 Text="{Binding FormulationBusinessModel.Name}" />
+
+        <Label Grid.Row="1" Grid.Column="0" 
+               Content="Available Ingredients" />
+
+        <Label Grid.Row="1" Grid.Column="2"
+               Content="Assigned Ingredients" />
+        
+        <ItemsControl Grid.Row="2" Grid.Column="0"
+                      ItemsSource="{Binding AvailableIngredients}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding DisplayMember}" />
+                </DataTemplate>                
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

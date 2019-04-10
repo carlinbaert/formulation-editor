@@ -7,13 +7,18 @@ namespace FormulationEditor.WPF.Data.Repositories
     {
         protected List<T> AllItems;
 
+        public GenericRepository()
+        {
+            AllItems = new List<T>();
+        }
+
         public void Add(T model)
         {
             
             AllItems.Add(model);
         }
 
-        public IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             return AllItems;
         }
