@@ -11,23 +11,17 @@ namespace FormulationEditor.WPF.Data.Repositories
             return AllItems.FirstOrDefault(i => i.Id == ingredientId);
         }
 
-        protected override int GetNextId()
+        protected override void SetNextId(Ingredient model)
         {
             if (AllItems.Count == 0)
-                return 1;
-
-            var maxId = AllItems.Select(m => m.Id).Max();
-
-            return maxId + 1;
+                model.Id = 1;
+            else
+                model.Id = AllItems.Select(m => m.Id).Max() + 1;
         }
 
         public override IEnumerable<Ingredient> GetAll()
         {
-            yield return new Ingredient { Id = 1, Name = "Corn" };
-            yield return new Ingredient { Id = 1, Name = "Soybeans" };
-            yield return new Ingredient { Id = 1, Name = "Wheat" };
-            yield return new Ingredient { Id = 1, Name = "Hay" };
-            yield return new Ingredient { Id = 1, Name = "Straw" };
+            return AllItems;
         }
     }
 }

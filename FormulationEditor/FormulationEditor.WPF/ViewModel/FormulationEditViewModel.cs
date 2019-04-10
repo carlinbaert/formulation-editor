@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using FormulationEditor.Model;
 using FormulationEditor.WPF.BusinessModel;
 using FormulationEditor.WPF.Data.Lookups;
 using FormulationEditor.WPF.Data.Repositories;
+using Prism.Commands;
 
 namespace FormulationEditor.WPF.ViewModel
 {
@@ -14,20 +15,26 @@ namespace FormulationEditor.WPF.ViewModel
         private readonly IIngredientLookupDataService _ingredientLookupDataService;
         private readonly IFormulationIngredientRepository _formulationIngredientRepository;
         private readonly IFormulationRepository _formulationRepository;
+        private readonly IIngredientRepository _ingredientRepository;
         private FormulationBusinessModel _formulationBusinessModel;
         private IEnumerable<LookupItem> _allIngredients;
         private ObservableCollection<FormulationIngredientBusinessModel> _assignedIngredientBusinessModels;
         private ObservableCollection<LookupItem> _availableIngredients;
         private LookupItem _selectedIngredient;
         private bool _ingredientIsSelected;
+        private FormulationIngredientBusinessModel _formulationIngredientBusinessModel;
 
         public FormulationEditViewModel(IIngredientLookupDataService ingredientLookupDataService
             , IFormulationIngredientRepository formulationIngredientRepository
-            , IFormulationRepository formulationRepository)
+            , IFormulationRepository formulationRepository
+            , IIngredientRepository ingredientRepository)
         {
             _ingredientLookupDataService = ingredientLookupDataService;
             _formulationIngredientRepository = formulationIngredientRepository;
             _formulationRepository = formulationRepository;
+            _ingredientRepository = ingredientRepository;
+
+            AddSelectedIngredientCommand = new DelegateCommand(OnAddSelectedIngredient, OnAddSelectedIngredientCanExecute);
 
             PropertyChanged += FormulationEditViewModel_PropertyChanged;
         }
@@ -52,7 +59,12 @@ namespace FormulationEditor.WPF.ViewModel
             if (!IngredientIsSelected)
                 SetNoIngredientSelectedText();
             else
+            {
+                InitializeIngredientFormulationBusinessModel();
                 IngredientAddText = $"Enter the amount of {SelectedIngredient.DisplayMember} in Tons";
+            }                
+
+            ((DelegateCommand)AddSelectedIngredientCommand).RaiseCanExecuteChanged();
         }
 
         public void Load(int formulationId)
@@ -86,7 +98,7 @@ namespace FormulationEditor.WPF.ViewModel
 
         private void UpdateAvailableIngredients()
         {
-            var assignedIngredients = AssignedIngredientBusinessModels.Select(i => i.Id).ToList();
+            var assignedIngredients = AssignedIngredientBusinessModels.Select(i => i.IngredientId).ToList();
 
             var availableIngredients = _allIngredients.Where(i => !assignedIngredients.Contains(i.Id));
 
@@ -108,7 +120,10 @@ namespace FormulationEditor.WPF.ViewModel
             AssignedIngredientBusinessModels.Clear();
 
             foreach (var ingredient in assignedIngredients)
-                AssignedIngredientBusinessModels.Add(new FormulationIngredientBusinessModel(ingredient));
+            {
+                var ingredientModel = _ingredientRepository.GetById(ingredient.IngredientId);
+                AssignedIngredientBusinessModels.Add(new FormulationIngredientBusinessModel(ingredient, ingredientModel));
+            }                
         }
 
         public FormulationBusinessModel FormulationBusinessModel
@@ -189,6 +204,57 @@ namespace FormulationEditor.WPF.ViewModel
                     NotifyPropertyChanged();
                 }                
             }
+        }
+
+        public ICommand AddSelectedIngredientCommand { get; }
+
+        private void OnAddSelectedIngredient()
+        {
+            _formulationIngredientRepository.Add(FormulationIngredientBusinessModel.Model);
+
+            AssignedIngredientBusinessModels.Add(FormulationIngredientBusinessModel);
+
+            UpdateAvailableIngredients();
+
+            FormulationIngredientBusinessModel = null;
+            SelectedIngredient = null;
+        }
+
+        private bool OnAddSelectedIngredientCanExecute()
+        {
+            return _ingredientIsSelected && FormulationIngredientBusinessModel != null && FormulationIngredientBusinessModel.Quantity > 0;
+        }
+
+        public FormulationIngredientBusinessModel FormulationIngredientBusinessModel
+        {
+            get { return _formulationIngredientBusinessModel; }
+            set
+            {
+                if (_formulationIngredientBusinessModel != value)
+                {
+                    _formulationIngredientBusinessModel = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        private void InitializeIngredientFormulationBusinessModel()
+        {
+            var ingredientModel = _ingredientRepository.GetById(SelectedIngredient.Id);
+
+            var formulationIngredient = new FormulationIngredient { IngredientId = SelectedIngredient.Id, FormulationId = FormulationBusinessModel.Id };
+
+            FormulationIngredientBusinessModel = new FormulationIngredientBusinessModel(formulationIngredient, ingredientModel);
+
+            FormulationIngredientBusinessModel.PropertyChanged += FormulationIngredientBusinessModel_PropertyChanged;
+        }
+
+        private void FormulationIngredientBusinessModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.PropertyName))
+                return;
+
+            if (e.PropertyName == "Quantity")
+                ((DelegateCommand)AddSelectedIngredientCommand).RaiseCanExecuteChanged();
         }
     }
 }

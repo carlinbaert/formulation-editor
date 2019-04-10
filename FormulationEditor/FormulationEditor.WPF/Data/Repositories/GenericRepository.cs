@@ -14,7 +14,8 @@ namespace FormulationEditor.WPF.Data.Repositories
 
         public void Add(T model)
         {
-            
+            SetNextId(model);
+
             AllItems.Add(model);
         }
 
@@ -23,6 +24,6 @@ namespace FormulationEditor.WPF.Data.Repositories
             return AllItems;
         }
 
-        protected abstract int GetNextId();
+        protected abstract void SetNextId(T model);
     }
 }

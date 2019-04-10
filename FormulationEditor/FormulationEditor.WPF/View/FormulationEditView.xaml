@@ -13,12 +13,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="200" />
-            <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -29,23 +27,24 @@
             <TextBox Text="{Binding FormulationBusinessModel.Name}" MinWidth="125" />
         </DockPanel>
 
-        <Label Grid.Row="2" Grid.Column="0" 
+        <Label Grid.Row="1" Grid.Column="0" 
                Content="Available Ingredients" />
 
-        <ListView Grid.Row="4" Grid.Column="0"
+        <ListView Grid.Row="2" Grid.Column="0"
                   Height="Auto"
                   ItemsSource="{Binding AvailableIngredients}"
                   SelectedItem="{Binding SelectedIngredient}">
-            <ItemsControl.ItemTemplate>
+            <ListView.ItemTemplate>
                 <DataTemplate>
                     <Label Content="{Binding DisplayMember}" />
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
+            </ListView.ItemTemplate>
         </ListView>
 
-        <Grid Grid.Row="4" Grid.Column="1"
-              HorizontalAlignment="Left"
-              VerticalAlignment="Top">
+        <Grid Grid.Row="2" Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Top"
+              Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -54,20 +53,42 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" 
+                   Margin="10 0 10 10"
                    Content="{Binding IngredientAddText}" />
 
             <TextBox Grid.Row="2" 
-                     IsEnabled="{Binding IngredientSelected}" />
+                     Margin="10 0 10 10"
+                     IsEnabled="{Binding IngredientIsSelected}"
+                     Text="{Binding FormulationIngredientBusinessModel.Quantity, UpdateSourceTrigger=PropertyChanged}" />
 
             <Button Grid.Row="3" 
-                    Content="Add Ingredient" 
-                    IsEnabled="{Binding IngredientIsSelected}" 
+                    Margin="10 0 10 10"
+                    Content="Add Ingredient"
+                    Command="{Binding AddSelectedIngredientCommand}"
                     Height="Auto" 
                     Width="Auto" />
         </Grid>
         
-        <Label Grid.Row="2" Grid.Column="2"
+        <Label Grid.Row="1" Grid.Column="2"
                Content="Assigned Ingredients" />
+
+        <ItemsControl Grid.Row="2" Grid.Column="2"
+                  Height="Auto"
+                  ItemsSource="{Binding AssignedIngredientBusinessModels}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" Content="{Binding Name}" />
+                        <TextBox Grid.Column="1" Text="{Binding Quantity}" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
     </Grid>
 </UserControl>

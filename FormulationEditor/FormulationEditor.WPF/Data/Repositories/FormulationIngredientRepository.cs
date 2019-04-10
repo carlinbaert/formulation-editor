@@ -16,14 +16,12 @@ namespace FormulationEditor.WPF.Data.Repositories
             return AllItems.FirstOrDefault(f => f.Id == formulationIngredientId);
         }
 
-        protected override int GetNextId()
+        protected override void SetNextId(FormulationIngredient model)
         {
             if (AllItems.Count == 0)
-                return 1;
-
-            var maxId = AllItems.Select(m => m.Id).Max();
-
-            return maxId + 1;
+                model.Id = 1;
+            else
+                model.Id = AllItems.Select(m => m.Id).Max() + 1;
         }
     }
 }
