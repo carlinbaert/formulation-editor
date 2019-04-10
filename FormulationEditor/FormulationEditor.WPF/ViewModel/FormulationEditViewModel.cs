@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FormulationEditor.Model;
@@ -17,6 +18,8 @@ namespace FormulationEditor.WPF.ViewModel
         private IEnumerable<LookupItem> _allIngredients;
         private ObservableCollection<FormulationIngredientBusinessModel> _assignedIngredientBusinessModels;
         private ObservableCollection<LookupItem> _availableIngredients;
+        private LookupItem _selectedIngredient;
+        private bool _ingredientIsSelected;
 
         public FormulationEditViewModel(IIngredientLookupDataService ingredientLookupDataService
             , IFormulationIngredientRepository formulationIngredientRepository
@@ -25,6 +28,31 @@ namespace FormulationEditor.WPF.ViewModel
             _ingredientLookupDataService = ingredientLookupDataService;
             _formulationIngredientRepository = formulationIngredientRepository;
             _formulationRepository = formulationRepository;
+
+            PropertyChanged += FormulationEditViewModel_PropertyChanged;
+        }
+
+        private void FormulationEditViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.PropertyName))
+                return;
+
+            switch (e.PropertyName)
+            {
+                case "SelectedIngredient":
+                    OnSelectedIngredientChanged();
+                    break;
+            }
+        }
+
+        private void OnSelectedIngredientChanged()
+        {
+            IngredientIsSelected = _selectedIngredient != null;
+
+            if (!IngredientIsSelected)
+                SetNoIngredientSelectedText();
+            else
+                IngredientAddText = $"Enter the amount of {SelectedIngredient.DisplayMember} in Tons";
         }
 
         public void Load(int formulationId)
@@ -47,6 +75,13 @@ namespace FormulationEditor.WPF.ViewModel
             LoadAllIngredients();
 
             UpdateAvailableIngredients();
+
+            SetNoIngredientSelectedText();
+        }
+
+        private void SetNoIngredientSelectedText()
+        {
+            IngredientAddText = "Select an ingredient to add to the formulation.";
         }
 
         private void UpdateAvailableIngredients()
@@ -112,6 +147,47 @@ namespace FormulationEditor.WPF.ViewModel
                     _availableIngredients = value;
                     NotifyPropertyChanged();
                 }
+            }
+        }
+
+        public LookupItem SelectedIngredient
+        {
+            get { return _selectedIngredient; }
+            set
+            {
+                if (_selectedIngredient != value)
+                {
+                    _selectedIngredient = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public bool IngredientIsSelected
+        {
+            get { return _ingredientIsSelected; }
+            private set
+            {
+                if (_ingredientIsSelected != value)
+                {
+                    _ingredientIsSelected = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private string _ingredientAddText;
+
+        public string IngredientAddText
+        {
+            get { return _ingredientAddText; }
+            set
+            {
+                if (_ingredientAddText != value)
+                {
+                    _ingredientAddText = value;
+                    NotifyPropertyChanged();
+                }                
             }
         }
     }

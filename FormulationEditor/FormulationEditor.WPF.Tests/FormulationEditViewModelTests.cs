@@ -35,6 +35,40 @@ namespace FormulationEditor.WPF.Tests
             Assert.IsTrue(viewModel.AssignedIngredientBusinessModels.Count == 0);
 
             ingredientLookupDataService.VerifyAll();
+            formulationIngredientRepository.VerifyAll();
+        }
+
+        [TestMethod]
+        public void Load_ExistingFormula_AvailableAssignedListsCorrectCount()
+        {
+            ingredientLookupDataService.Setup(i => i.GetAllIngredients()).Returns(() => new List<LookupItem>
+            {
+                  new LookupItem { Id = 1, DisplayMember = "Corn" }
+                , new LookupItem { Id = 2, DisplayMember = "Hay" }
+                , new LookupItem { Id = 3, DisplayMember = "Straw" }
+                , new LookupItem { Id = 4, DisplayMember = "Wheat" }
+            });
+
+            formulationRepository.Setup(f => f.GetById(It.IsAny<int>())).Returns(new Formulation { Id = 1, Name = "Formulation1"});
+
+            formulationIngredientRepository.Setup(f => f.GetByFormulationId(It.IsAny<int>())).Returns(new List<FormulationIngredient>()
+            {
+                  new FormulationIngredient { Id = 1, FormulationId = 1, IngredientId = 1 }
+                , new FormulationIngredient { Id = 2, FormulationId = 1, IngredientId = 2 }
+            });            
+
+            var viewModel = new FormulationEditViewModel(ingredientLookupDataService.Object, formulationIngredientRepository.Object, formulationRepository.Object);
+
+            viewModel.Load(1);
+
+            Assert.IsNotNull(viewModel.AvailableIngredients);
+            Assert.IsTrue(viewModel.AvailableIngredients.Count == 2);
+            Assert.IsNotNull(viewModel.AssignedIngredientBusinessModels);
+            Assert.IsTrue(viewModel.AssignedIngredientBusinessModels.Count == 2);
+
+            ingredientLookupDataService.VerifyAll();
+            formulationRepository.VerifyAll();
+            formulationIngredientRepository.VerifyAll();
         }
     }
 }

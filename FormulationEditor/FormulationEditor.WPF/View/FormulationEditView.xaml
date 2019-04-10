@@ -6,37 +6,68 @@
              xmlns:local="clr-namespace:FormulationEditor.WPF.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Background>
+        <SolidColorBrush Color="#C6C6C6" />
+    </UserControl.Background>
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="200" />
             <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" 
-               Content="Formulation Name" />
-        
-        <TextBox Grid.Row="0" Grid.Column="1"
-                 Grid.ColumnSpan="2"
-                 Text="{Binding FormulationBusinessModel.Name}" />
 
-        <Label Grid.Row="1" Grid.Column="0" 
+        <DockPanel Grid.Row="0" Grid.Column="0" 
+                   LastChildFill="True">
+            <Label Content="Formulation Name" MinWidth="75" />
+            <TextBox Text="{Binding FormulationBusinessModel.Name}" MinWidth="125" />
+        </DockPanel>
+
+        <Label Grid.Row="2" Grid.Column="0" 
                Content="Available Ingredients" />
 
-        <Label Grid.Row="1" Grid.Column="2"
-               Content="Assigned Ingredients" />
-        
-        <ItemsControl Grid.Row="2" Grid.Column="0"
-                      ItemsSource="{Binding AvailableIngredients}">
+        <ListView Grid.Row="4" Grid.Column="0"
+                  Height="Auto"
+                  ItemsSource="{Binding AvailableIngredients}"
+                  SelectedItem="{Binding SelectedIngredient}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Label Content="{Binding DisplayMember}" />
-                </DataTemplate>                
+                </DataTemplate>
             </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        </ListView>
+
+        <Grid Grid.Row="4" Grid.Column="1"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" 
+                   Content="{Binding IngredientAddText}" />
+
+            <TextBox Grid.Row="2" 
+                     IsEnabled="{Binding IngredientSelected}" />
+
+            <Button Grid.Row="3" 
+                    Content="Add Ingredient" 
+                    IsEnabled="{Binding IngredientIsSelected}" 
+                    Height="Auto" 
+                    Width="Auto" />
+        </Grid>
+        
+        <Label Grid.Row="2" Grid.Column="2"
+               Content="Assigned Ingredients" />
+
     </Grid>
 </UserControl>
