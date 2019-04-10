@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IngredientPricingAPI.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,10 +21,9 @@ namespace IngredientPricingAPI.Controllers
             {
                 _context.IngredientPrices.Add(new IngredientPrice { Id = 1, Price = 100 });
                 _context.IngredientPrices.Add(new IngredientPrice { Id = 2, Price = 150 });
-                _context.IngredientPrices.Add(new IngredientPrice { Id = 3, Price = 150 });
-                _context.IngredientPrices.Add(new IngredientPrice { Id = 4, Price = 150 });
-                _context.IngredientPrices.Add(new IngredientPrice { Id = 5, Price = 150 });
-                _context.IngredientPrices.Add(new IngredientPrice { Id = 6, Price = 150 });
+                _context.IngredientPrices.Add(new IngredientPrice { Id = 3, Price = 200 });
+                _context.IngredientPrices.Add(new IngredientPrice { Id = 4, Price = 125 });
+                _context.IngredientPrices.Add(new IngredientPrice { Id = 5, Price = 75 });
                 _context.SaveChanges();
             }
         }
