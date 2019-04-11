@@ -1,4 +1,5 @@
-﻿using FormulationEditor.Model;
+﻿using System;
+using FormulationEditor.Model;
 
 namespace FormulationEditor.WPF.BusinessModel
 {

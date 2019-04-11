@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FormulationEditor.WPF
 {
@@ -29,14 +30,13 @@ namespace FormulationEditor.WPF
 
         private async Task InitializeApplicationForUseCase1Async()
         {
-            var ingredientRepository = _container.Resolve<IIngredientRepository>();
+            await InitializeIngredientPriceRepository();
 
-            ingredientRepository.Add(new Ingredient { Name = "Corn" });
-            ingredientRepository.Add(new Ingredient { Name = "Soybeans" });
-            ingredientRepository.Add(new Ingredient { Name = "Wheat" });
-            ingredientRepository.Add(new Ingredient { Name = "Hay" });
-            ingredientRepository.Add(new Ingredient { Name = "Straw" });
+            InitializeIngredientRepository();            
+        }
 
+        private async Task InitializeIngredientPriceRepository()
+        {
             var client = new HttpClient();
 
             client.BaseAddress = new Uri("http://localhost:64370/");
@@ -51,10 +51,31 @@ namespace FormulationEditor.WPF
 
                 var prices = await response.Content.ReadAsAsync<IEnumerable<IngredientPrice>>();
 
-                foreach(var price in prices)
+                foreach (var price in prices)
                 {
                     ingredientPriceRepository.Add(price);
                 }
+            }
+        }
+
+        private void InitializeIngredientRepository()
+        {
+            var ingredientRepository = _container.Resolve<IIngredientRepository>();
+
+            ingredientRepository.Add(new Ingredient { Name = "Corn" });
+            ingredientRepository.Add(new Ingredient { Name = "Soybeans" });
+            ingredientRepository.Add(new Ingredient { Name = "Wheat" });
+            ingredientRepository.Add(new Ingredient { Name = "Hay" });
+            ingredientRepository.Add(new Ingredient { Name = "Straw" });
+
+            var ingredientPrices = _container.Resolve<IIngredientPriceRepository>().GetAll();
+
+            foreach(var ingredient in ingredientRepository.GetAll())
+            {
+                var price = ingredientPrices.FirstOrDefault(p => p.Id == ingredient.Id);
+
+                if (price != null)
+                    ingredient.Price = price.Price;
             }
         }
     }

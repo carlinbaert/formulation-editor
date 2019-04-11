@@ -28,5 +28,28 @@ namespace FormulationEditor.WPF.BusinessModel
         {
             get { return _ingredient.Id; }
         }
+
+        public decimal Price
+        {
+            get { return _ingredient.Price; }
+        }
+
+        public decimal TotalPrice
+        {
+            get { return Model.TotalPrice; }
+            private set
+            {
+                if (Model.TotalPrice != value)
+                {
+                    Model.TotalPrice = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public void CalculateTotalPrice()
+        {
+            TotalPrice = Price * Quantity;
+        }
     }
 }

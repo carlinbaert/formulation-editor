@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FormulationEditor.Model;
 using FormulationEditor.WPF.Data.Lookups;
 using FormulationEditor.WPF.Data.Repositories;

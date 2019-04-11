@@ -56,13 +56,12 @@ namespace FormulationEditor.WPF.ViewModel
         {
             IngredientIsSelected = _selectedIngredient != null;
 
-            if (!IngredientIsSelected)
-                SetNoIngredientSelectedText();
-            else
+            if (IngredientIsSelected)
             {
+                IngredientAddText = $"How much {SelectedIngredient.DisplayMember} in Tons?";
+                MarketPriceLabelText = $"Price for 1 Ton of {SelectedIngredient.DisplayMember}";
                 InitializeIngredientFormulationBusinessModel();
-                IngredientAddText = $"Enter the amount of {SelectedIngredient.DisplayMember} in Tons";
-            }                
+            }
 
             ((DelegateCommand)AddSelectedIngredientCommand).RaiseCanExecuteChanged();
         }
@@ -87,13 +86,6 @@ namespace FormulationEditor.WPF.ViewModel
             LoadAllIngredients();
 
             UpdateAvailableIngredients();
-
-            SetNoIngredientSelectedText();
-        }
-
-        private void SetNoIngredientSelectedText()
-        {
-            IngredientAddText = "Select an ingredient to add to the formulation.";
         }
 
         private void UpdateAvailableIngredients()
@@ -208,6 +200,21 @@ namespace FormulationEditor.WPF.ViewModel
 
         public ICommand AddSelectedIngredientCommand { get; }
 
+        private string _marketPriceLabelText;
+
+        public string MarketPriceLabelText
+        {
+            get { return _marketPriceLabelText; }
+            set
+            {
+                if (_marketPriceLabelText != value)
+                {
+                    _marketPriceLabelText = value;
+                    NotifyPropertyChanged();
+                }                
+            }
+        }
+
         private void OnAddSelectedIngredient()
         {
             _formulationIngredientRepository.Add(FormulationIngredientBusinessModel.Model);
@@ -217,6 +224,7 @@ namespace FormulationEditor.WPF.ViewModel
             UpdateAvailableIngredients();
 
             FormulationIngredientBusinessModel = null;
+
             SelectedIngredient = null;
         }
 
@@ -254,7 +262,10 @@ namespace FormulationEditor.WPF.ViewModel
                 return;
 
             if (e.PropertyName == "Quantity")
+            {
+                FormulationIngredientBusinessModel.CalculateTotalPrice();
                 ((DelegateCommand)AddSelectedIngredientCommand).RaiseCanExecuteChanged();
+            }                
         }
     }
 }
