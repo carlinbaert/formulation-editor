@@ -15,6 +15,7 @@ namespace FormulationEditor.WPF.Tests
         private Mock<IIngredientLookupDataService> ingredientLookupDataService = new Mock<IIngredientLookupDataService>(MockBehavior.Strict);
         private Mock<IFormulationIngredientRepository> formulationIngredientRepository = new Mock<IFormulationIngredientRepository>(MockBehavior.Strict);
         private Mock<IFormulationRepository> formulationRepository = new Mock<IFormulationRepository>(MockBehavior.Strict);
+        private Mock<IIngredientRepository> ingredientRepository = new Mock<IIngredientRepository>(MockBehavior.Strict);
 
         [TestMethod]
         public void Load_NoExceptions()
@@ -25,7 +26,10 @@ namespace FormulationEditor.WPF.Tests
 
             formulationRepository.Setup(f => f.GetAll()).Returns(new List<Formulation>());
 
-            var viewModel = new FormulationEditViewModel(ingredientLookupDataService.Object, formulationIngredientRepository.Object, formulationRepository.Object);
+            ingredientRepository.Setup(f => f.GetAll()).Returns(() => new List<Ingredient> { new Ingredient { Id = 1, Name = "Corn" } });
+            ingredientRepository.Setup(f => f.GetById(It.IsAny<int>())).Returns(() => new Ingredient { Id = 1, Name = "Corn" });
+
+            var viewModel = new FormulationEditViewModel(ingredientLookupDataService.Object, formulationIngredientRepository.Object, formulationRepository.Object, ingredientRepository.Object);
 
             viewModel.Load(0);
 
@@ -49,15 +53,28 @@ namespace FormulationEditor.WPF.Tests
                 , new LookupItem { Id = 4, DisplayMember = "Wheat" }
             });
 
-            formulationRepository.Setup(f => f.GetById(It.IsAny<int>())).Returns(new Formulation { Id = 1, Name = "Formulation1"});
+            var ingredient1 = new Ingredient { Id = 1, Name = "Corn" };
+            var ingredient2 = new Ingredient { Id = 2, Name = "Hay" };
+            var ingredient3 = new Ingredient { Id = 3, Name = "Straw" };
+            var ingredient4 = new Ingredient { Id = 4, Name = "Wheat" };
 
+            ingredientRepository.Setup(f => f.GetAll()).Returns(() => new List<Ingredient>
+            { ingredient1, ingredient2, ingredient3, ingredient4 });
+
+            ingredientRepository.Setup(f => f.GetById(ingredient1.Id)).Returns(ingredient1);
+            ingredientRepository.Setup(f => f.GetById(ingredient2.Id)).Returns(ingredient2);
+            ingredientRepository.Setup(f => f.GetById(ingredient3.Id)).Returns(ingredient3);
+            ingredientRepository.Setup(f => f.GetById(ingredient4.Id)).Returns(ingredient4);
+
+            formulationRepository.Setup(f => f.GetById(It.IsAny<int>())).Returns(new Formulation { Id = 1, Name = "Formulation1"});
+            
             formulationIngredientRepository.Setup(f => f.GetByFormulationId(It.IsAny<int>())).Returns(new List<FormulationIngredient>()
             {
                   new FormulationIngredient { Id = 1, FormulationId = 1, IngredientId = 1 }
                 , new FormulationIngredient { Id = 2, FormulationId = 1, IngredientId = 2 }
             });            
 
-            var viewModel = new FormulationEditViewModel(ingredientLookupDataService.Object, formulationIngredientRepository.Object, formulationRepository.Object);
+            var viewModel = new FormulationEditViewModel(ingredientLookupDataService.Object, formulationIngredientRepository.Object, formulationRepository.Object, ingredientRepository.Object);
 
             viewModel.Load(1);
 
