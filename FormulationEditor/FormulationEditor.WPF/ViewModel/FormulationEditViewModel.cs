@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -211,7 +212,7 @@ namespace FormulationEditor.WPF.ViewModel
                 {
                     _marketPriceLabelText = value;
                     NotifyPropertyChanged();
-                }                
+                }
             }
         }
 
@@ -222,6 +223,8 @@ namespace FormulationEditor.WPF.ViewModel
             AssignedIngredientBusinessModels.Add(FormulationIngredientBusinessModel);
 
             UpdateAvailableIngredients();
+
+            CalculateTotalFormulationPrice();
 
             FormulationIngredientBusinessModel = null;
 
@@ -261,11 +264,27 @@ namespace FormulationEditor.WPF.ViewModel
             if (string.IsNullOrEmpty(e.PropertyName))
                 return;
 
+            if (sender.GetType() != typeof(FormulationIngredientBusinessModel))
+                return;
+
+            var formulationIngredient = (FormulationIngredientBusinessModel)sender;
+
             if (e.PropertyName == "Quantity")
             {
-                FormulationIngredientBusinessModel.CalculateTotalPrice();
+                formulationIngredient.CalculateTotalPrice();
                 ((DelegateCommand)AddSelectedIngredientCommand).RaiseCanExecuteChanged();
+
+                if (formulationIngredient != FormulationIngredientBusinessModel)
+                    CalculateTotalFormulationPrice();
             }                
+        }
+
+        private void CalculateTotalFormulationPrice()
+        {
+            FormulationBusinessModel.TotalPrice = 0;
+
+            foreach (var ingredient in AssignedIngredientBusinessModels)
+                FormulationBusinessModel.TotalPrice += ingredient.TotalPrice;
         }
     }
 }

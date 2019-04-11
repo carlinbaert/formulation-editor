@@ -6,7 +6,7 @@
         xmlns:viewModel="clr-namespace:FormulationEditor.WPF.ViewModel"
         xmlns:view="clr-namespace:FormulationEditor.WPF.View"
         mc:Ignorable="d"
-        Title="Formulation Editor" WindowStartupLocation="CenterScreen" Height="675" Width="1200">
+        Title="Formulation Editor" WindowStartupLocation="CenterScreen" Height="768" Width="1024">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:FormulationEditViewModel}">
             <view:FormulationEditView />

@@ -36,15 +36,8 @@ namespace FormulationEditor.WPF.BusinessModel
 
         public decimal TotalPrice
         {
-            get { return Model.TotalPrice; }
-            private set
-            {
-                if (Model.TotalPrice != value)
-                {
-                    Model.TotalPrice = value;
-                    NotifyPropertyChanged();
-                }
-            }
+            get { return GetValue<decimal>(); }
+            set { SetValue(value); }
         }
 
         public void CalculateTotalPrice()
