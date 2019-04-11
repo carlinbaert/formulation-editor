@@ -36,8 +36,28 @@ namespace FormulationEditor.WPF.ViewModel
             _ingredientRepository = ingredientRepository;
 
             AddSelectedIngredientCommand = new DelegateCommand(OnAddSelectedIngredient, OnAddSelectedIngredientCanExecute);
+            RemoveFormulationIngredientCommand = new DelegateCommand<object>(OnRemoveFormulationIngredient);
 
             PropertyChanged += FormulationEditViewModel_PropertyChanged;
+        }
+
+        private void OnRemoveFormulationIngredient(object id)
+        {
+            if (id.GetType() != typeof(int))
+                return;
+
+            var itemToRemove = AssignedIngredientBusinessModels.FirstOrDefault(i => i.Id == (int)id);
+
+            if (itemToRemove == null)
+                return;
+
+            itemToRemove.PropertyChanged -= FormulationIngredientBusinessModel_PropertyChanged;
+
+            AssignedIngredientBusinessModels.Remove(itemToRemove);
+
+            CalculateTotalFormulationPrice();
+
+            UpdateAvailableIngredients();
         }
 
         private void FormulationEditViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -200,6 +220,8 @@ namespace FormulationEditor.WPF.ViewModel
         }
 
         public ICommand AddSelectedIngredientCommand { get; }
+
+        public ICommand RemoveFormulationIngredientCommand { get; }
 
         private string _marketPriceLabelText;
 
