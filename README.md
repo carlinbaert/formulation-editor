@@ -1,11 +1,11 @@
-# formulation-editor
+# Why
+Project created in a two day sprint as a demonstration of my coding ability.
 
-Prototype of a formulation editor
+# What
 
 WPF user interface with an ASP.Net Core Restful API for pricing information.
 
-Project created in a two day sprint as a demonstration of my coding ability.
-
+# What (in detail)
 High level requirements:
 The user should be allowed to create formulas with the following ingredients: corn, soybeans, wheat, hay, straw. 
 
@@ -27,6 +27,7 @@ Design the system so it is easy to add additional ingredients and calculate the 
 
 Your program should execute and ask the user for the amount of each ingredient, calculate the price, and display the price to the user. 
 
+# ETC
 
 In addition to the nuget packages added by Visual Studio during project creation, this project implements the following nuget packages:
 AutoFac
