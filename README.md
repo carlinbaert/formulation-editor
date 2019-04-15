@@ -1,13 +1,13 @@
 # Why
 Project created in a two day sprint as a demonstration of my coding ability and style
 
-# What
+# What (High level)
 
 As a user, I want to create a formulation of feed ingredients measured in tons with pricing information, so that I can get an estimate of cost.
 
 WPF user interface with an ASP.Net Core RESTful API for pricing information
 
-# What (High level requirements)
+# What (Requirements)
 
 The user should be allowed to create formulas with the following ingredients: corn, soybeans, wheat, hay, straw. 
 
