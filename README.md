@@ -7,8 +7,8 @@ As a user, I want to create a formulation of feed ingredients measured in tons w
 
 WPF user interface with an ASP.Net Core RESTful API for pricing information
 
-# What (in detail)
-High level requirements:
+# What (High level requirements)
+
 The user should be allowed to create formulas with the following ingredients: corn, soybeans, wheat, hay, straw. 
 
 Each ingredient should be measured in tons. 
