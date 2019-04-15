@@ -1,9 +1,9 @@
 # Why
-Project created in a two day sprint as a demonstration of my coding ability.
+Project created in a two day sprint as a demonstration of my coding ability and style
 
 # What
 
-WPF user interface with an ASP.Net Core Restful API for pricing information.
+WPF user interface with an ASP.Net Core Restful API for pricing information
 
 # What (in detail)
 High level requirements:
