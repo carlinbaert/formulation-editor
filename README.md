@@ -29,6 +29,19 @@ Design the system so it is easy to add additional ingredients and calculate the 
 
 Your program should execute and ask the user for the amount of each ingredient, calculate the price, and display the price to the user. 
 
+# How
+
+This project was created using Visual Studio 2017.  The WPF project targets .Net Framework 4.6.1 and the Web API targets .Net Core 2.1.  Those frameworks will need to be installed on the machine that will be compiling the application.
+
+After downloading the Repository a few things will need to done to ensure the application will run correctly.
+1.	Open the Properties page for the IngredientPricingAPI project.  Open the Debug tab and copy the port number from the App URL.
+2.	Paste that port number into the App.Xaml.cs file in the WPF project in place of the current port.  This is the current line that has the port number: client.BaseAddress = new Uri("http://localhost:64370/");
+3.	Set the IngredientPricingAPI project as startup and run the application.
+4.	Stop the Debugging session.
+5.	Set the WPF project as startup.  
+6.	The application should now run.
+
+
 # ETC
 
 In addition to the nuget packages added by Visual Studio during project creation, this project implements the following nuget packages:
