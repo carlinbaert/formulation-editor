@@ -3,7 +3,9 @@ Project created in a two day sprint as a demonstration of my coding ability and 
 
 # What
 
-WPF user interface with an ASP.Net Core Restful API for pricing information
+As a user, I want to create a formulation of feed ingredients measured in tons with pricing information, so that I can get an estimate of cost.
+
+WPF user interface with an ASP.Net Core RESTful API for pricing information
 
 # What (in detail)
 High level requirements:
